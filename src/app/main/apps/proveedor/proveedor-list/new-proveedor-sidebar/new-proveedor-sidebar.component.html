@@ -1,0 +1,215 @@
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-user-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="submit()"
+        [formGroup]="formProveedor"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-proveedor-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Proveedor</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <label class="form-label" for="user-role"><span style="color: red">*</span> Tipo de documento</label>
+            <!-- <ng-select
+              *ngIf="documentTypeSelect$ | async as documents"
+              [items]="documents.data"
+              bindLabel="description"
+              bindValue="iddocumentType"
+              formControlName="iddocumentType"
+              [searchable]="true"
+            >
+              <ng-template
+                ng-option-tmp
+                ng-label-tmp
+                let-item="item"
+              >
+                {{
+                  item.description
+                }}
+              </ng-template>
+            </ng-select> -->
+            <select
+              *ngIf="documentTypeSelect$ | async as documents"
+              formControlName="iddocumentType"
+              class="form-control"
+            >
+              <option [value]="null">Seleccione</option>
+              <option
+                *ngFor="let document of documents.data"
+                [value]="document.iddocumenttype"
+              >
+                {{ document.description }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Nro. de documento</label
+            >
+            <input
+              type="number"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="documentNumber"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              [class.error]="documentNumberControlIsInvalid"
+              maxlength="11"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+            <span *ngIf="documentNumberControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Razón social</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="businessname"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              [class.error]="businessnameControlIsInvalid"
+            />
+            <span *ngIf="businessnameControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+
+          <!-- <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              >Teléfono</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="phone"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+          </div> -->
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Teléfono</label
+            >
+            <input
+              type="number"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="phone"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              maxlength="9"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Correo electrónico</label
+            >
+            <input
+              type="email"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="email"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Nombre de contacto</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="representativeName"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Teléfono de contacto</label
+            >
+            <input
+              type="number"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="representativePhone"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              maxlength="9"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Correo de contacto</label
+            >
+            <input
+              type="email"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="representativeEmail"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            [disabled]="formProveedor.invalid"
+            rippleEffect
+          >
+            Guardar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-proveedor-sidebar')"
+            rippleEffect
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

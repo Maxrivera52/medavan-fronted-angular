@@ -1,0 +1,82 @@
+<div class="slideout-content">
+  <!-- Modal to add new material starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-material-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-material modal-content pt-0"
+        (ngSubmit)="submit()"
+        [formGroup]="formMaterial"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-material-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Material</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Material</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="name"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              [class.error]="nameControlIsInvalid"
+            />
+            <span *ngIf="nameControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname"
+              ><span style="color: red">*</span> Descripción</label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-uname"
+              class="form-control dt-uname"
+              formControlName="description"
+              required
+              aria-label="jdoe1"
+              aria-describedby="basic-icon-default-uname2"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            [disabled]="formMaterial.invalid"
+            rippleEffect
+          >
+            Guardar
+          </button>
+
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-material-sidebar')"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

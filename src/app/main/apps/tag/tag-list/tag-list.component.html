@@ -1,0 +1,189 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- Tag List -->
+    <section class="tags-list-wrapper">
+      <!-- tags filter start -->
+      <!--     <div class="card">
+        <h5 class="card-header">Search Filter</h5>
+        <div class="card-body">
+          <div class="tags-list-filter">
+            <form>
+              <div class="row">
+                <div class="col-12 col-md-4">
+                  <fieldset class="form-group">
+                    <ng-select
+                      [items]="selectRole"
+                      [(ngModel)]="selectedRole"
+                      name="selectedRole"
+                      bindLabel="name"
+                      placeholder="Select Role"
+                      (change)="filterByRole($event)"
+                    ></ng-select>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-md-4">
+                  <fieldset class="form-group">
+                    <ng-select
+                      [items]="selectPlan"
+                      [(ngModel)]="selectedPlan"
+                      name="selectedPlan"
+                      bindLabel="name"
+                      placeholder="Select Plan"
+                      (change)="filterByPlan($event)"
+                    ></ng-select>
+                  </fieldset>
+                </div>
+                <div class="col-12 col-md-4">
+                  <fieldset class="form-group">
+                    <ng-select
+                      [items]="selectStatus"
+                      [(ngModel)]="selectedStatus"
+                      name="selectedStatus"
+                      bindLabel="name"
+                      placeholder="Select Status"
+                      (change)="filterByStatus($event)"
+                    ></ng-select>
+                  </fieldset>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div> -->
+      <!-- tags filter end -->
+
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center"
+                >Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                entradas</label
+              >
+            </div>
+          </div>
+          <div
+            class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end"
+          >
+            <div
+              class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"
+            >
+              <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Buscar:<input
+                  [(ngModel)]="searchValue"
+                  name="searchValue"
+                  type="search"
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+              <button
+                class="btn btn-primary ml-1"
+                rippleEffect
+                (click)="toggleSidebar('new-tag-sidebar')"
+              >
+                <i
+                  data-feather="plus"
+                  class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                ></i
+                ><span class="d-none d-sm-inline-block"
+                  >Agregar Etiqueta</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable
+          [rows]="rows"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+          <!-- <ngx-datatable-column
+            name="ID"
+            prop="idTag"
+            [width]="200"
+          ></ngx-datatable-column> -->
+          <ngx-datatable-column
+            name="Nombre"
+            prop="name"
+            [width]="200"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Color"
+            prop="color"
+            [width]="60"
+          ></ngx-datatable-column>
+          <ngx-datatable-column name="Visible" prop="visible" [width]="40">
+            <ng-template let-visible="value" ngx-datatable-cell-template>
+              <div
+                class="badge badge-pill"
+                [ngClass]="{
+                  'badge-light-success': visible == 1,
+                  'badge-light-danger': visible == 0
+                }"
+              >
+                {{visible != 0 ? "si" : "no" }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div ngbDropdown container="body">
+                <button
+                  ngbDropdownToggle
+                  type="button"
+                  class="btn icon-btn btn-sm hide-arrow"
+                  rippleEffect
+                >
+                  <span
+                    [data-feather]="'more-vertical'"
+                    [class]="'cursor-pointer'"
+                  ></span>
+                </button>
+                <div ngbDropdownMenu>
+                  <a (click)="selectTag(row)" ngbDropdownItem
+                    ><span
+                      [data-feather]="'edit'"
+                      [size]="16"
+                      [class]="'mr-50'"
+                    ></span>
+                    Editar</a
+                  ><a (click)="deletTag(row.idTag)" ngbDropdownItem
+                    ><span
+                      [data-feather]="'trash'"
+                      [size]="16"
+                      [class]="'mr-50'"
+                    ></span>
+                    Eliminar</a
+                  >
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+    <!--/ Tag List -->
+  </div>
+
+  <!-- New Tag Sidebar -->
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="new-tag-sidebar"
+    overlayClass="modal-backdrop"
+  >
+    <app-new-tag-sidebar></app-new-tag-sidebar>
+  </core-sidebar>
+  <!--/ New Tag Sidebar -->
+</div>

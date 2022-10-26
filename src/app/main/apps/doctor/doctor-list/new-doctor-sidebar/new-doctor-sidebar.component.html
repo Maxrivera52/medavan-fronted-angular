@@ -1,0 +1,264 @@
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-user-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="submit()"
+        [formGroup]="formDoctor"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-doctor-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Doctor</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Nro. de CMP</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="cmp"
+              required
+              [class.error]="cmpControlIsInvalid"
+            />
+            <span *ngIf="cmpControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+
+          <div class="form-group">
+
+            <label class="form-label" for="user-role"><span style="color: red">*</span> Tipo de documento</label>
+
+            <select
+              *ngIf="documentTypeSelect$ | async as documents"
+              formControlName="iddocumentType"
+              class="form-control"
+            >
+              <option [value]="null">Seleccione</option>
+              <option
+                *ngFor="let document of documents.data"
+                [value]="document.iddocumenttype"
+              >
+                {{ document.description }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Nro. de documento</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              formControlName="documentNumber"
+              required
+              [class.error]="documentNumberControlIsInvalid"
+              maxlength="11"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+            <span *ngIf="documentNumberControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+          <!-- apellido paterno -->
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Apellido Paterno</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="firstLastname"
+              [class.error]="firstLastNameControlIsInvalid"
+              required
+            />
+            <span *ngIf="firstLastNameControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+
+          <!-- apellido materno -->
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Apellido Materno</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="secondLastname"
+              required     
+            />
+          </div>
+
+          <!-- nombres -->
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname"
+              ><span style="color: red">*</span> Nombres</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              required
+            />
+          </div>
+          <!-- cumpleaños -->
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Cumpleaños</label
+            >
+            <div class="row">
+              
+              <div class="col-md-12 col-lg-4">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="birthdayDay"
+                  maxlength="2"
+                  required
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                />
+              </div>
+
+              <div class="col-md-12 col-lg-8">
+                <ng-select
+                  [items]="meses"
+                  bindLabel="label"
+                  required
+                  formControlName="birthdayMounth"
+                >
+                  <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                    <span class="ng-value-label"> {{ item.label }}</span>
+                    <span
+                      class="ng-value-icon right"
+                      (click)="clear(item)"
+                      aria-hidden="true"
+                      >×</span
+                    >
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <!-- fin de cumpleaños -->
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-email"
+              ><span style="color: red">*</span> Correo Electrónico</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Celular</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              formControlName="cellphone"
+              maxlength="9"
+              required
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Teléfono de contacto</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              formControlName="phoneContact"
+              maxlength="9"
+              required
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="user-role"><span style="color: red">*</span> Especialidad</label>
+            
+            <ng-select
+              *ngIf="specialtySelect$ | async as specialtys"
+              formControlName="idspecialty"
+              [items]="specialtys.data"
+              bindLabel="description"
+              bindValue="idSpecialty"
+              [searchable]="true"
+              required
+            >
+              <ng-template
+                ng-option-tmp
+                ng-label-tmp
+                let-item="item"
+              >
+              {{
+                item.description
+              }}
+            </ng-template>
+            </ng-select>
+            
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            [disabled]="formDoctor.invalid"
+            rippleEffect
+          >
+            Guardar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-doctor-sidebar')"
+            rippleEffect
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>
+<script type="text/javascript">
+  function valideKey(evt){
+      
+      var code = (evt.which) ? evt.which : evt.keyCode;
+      
+      if(code==8) { 
+        return true;
+      } else if(code>=48 && code<=57) { 
+        return true;
+      } else{ 
+        return false;
+      }
+  }
+  </script> 

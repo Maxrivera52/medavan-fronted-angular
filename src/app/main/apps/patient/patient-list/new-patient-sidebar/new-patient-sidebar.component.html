@@ -1,0 +1,138 @@
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-user-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="submit()"
+        [formGroup]="formPatient"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-patient-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Paciente</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          
+          <div class="form-group">
+            <label class="form-label" for="user-role"><span style="color: red">*</span> Tipo de documento</label>
+            
+            <select *ngIf="documentTypeSelect$ | async as documents" formControlName="iddocumentType" class="form-control">
+              <option [value]="null">Seleccione</option>
+              <option *ngFor="let document of documents.data" [value]="document.iddocumenttype">{{ document.description }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Nro. de documento</label
+            >
+            <input
+              type="number"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="documentNumber"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              [class.error]="documentNumberControlIsInvalid"
+              maxlength="11"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+            <span *ngIf="documentNumberControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Nombres</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="firstName"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              [class.error]="firstNameControlIsInvalid"
+            />
+            <span *ngIf="firstNameControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Apellidos</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="lastName"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              [class.error]="lastNameControlIsInvalid"
+            />
+            <span *ngIf="lastNameControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Edad</label
+            >
+            <input
+              type="number"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="age"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              maxlength="3"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            [disabled]="formPatient.invalid"
+            rippleEffect
+          >
+            Guardar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-patient-sidebar')"
+            rippleEffect
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

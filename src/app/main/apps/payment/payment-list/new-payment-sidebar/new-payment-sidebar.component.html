@@ -1,0 +1,57 @@
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-user-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="submit()"
+        [formGroup]="formPayment"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-payment-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Pago</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <!--  -->
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname"
+              ><span style="color: red">*</span> Descripción</label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-uname"
+              class="form-control dt-uname"
+              formControlName="description"
+              aria-label="jdoe1"
+              aria-describedby="basic-icon-default-uname2"
+              required
+            />
+          </div>
+          <button ttype="submit" class="btn btn-primary mr-1" [disabled]="formPayment.invalid" rippleEffect>
+            Guardar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-payment-sidebar')"
+            rippleEffect
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

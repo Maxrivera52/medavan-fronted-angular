@@ -1,0 +1,331 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- User List -->
+    <div class="card">
+
+      <div class="card-header">
+        <section class="row">
+          <div class="col-md-12 pt-2">
+            <h1 class="text-center">Encuesta de Satisfacción</h1>
+            <!-- <p class="text-center">ESE Hospital San Rafael de Girardota.</p>| -->
+          </div>
+
+        </section>
+
+      </div>
+
+      <div class="dropdown-divider"></div>
+
+      <form class="form form-horizontal">
+        <!-- <section class="col-md-12 mt-2">
+          <h3>Datos básicos</h3>
+        </section> -->
+        <div class="card-body">
+        
+
+          <div class="row">
+            <!-- <div class="col-xl-4 col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="basicInput"><span style="color: red">*</span> Tipo de Atenciónt</label>
+                <select class="form-control" id="tipoAtencion">
+                  <option value="ce">Consulta Externa</option>
+                  <option value="farm">Farmacia</option>
+                  <option value="fisi">Fisioterapia</option>
+                  <option value="fo">Fo</option>
+                  <option value="hosp">Hospitalizació</option>
+                  <option value="odon">Odontologia</option>
+                  <option value="pyp">Promoción y Prevención</option>
+                  <option value="rx">Rayos X</option>
+                  <option value="urge">Urgencias</option>
+              </select>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="helpInputTop"><span style="color: red">*</span> Fecha Actual</label>
+                <input type="date" class="form-control" id="fechaActual" required>
+              </div>
+            </div> -->
+            <div class="col-xl-2 col-md-6 col-12 mb-1">
+              <div class="form-group">
+                <label for="disabledInput"><span style="color: red">*</span> Fecha Atención</label>
+                <input type="date" class="form-control" id="fechaAtencion" required>
+              </div>
+            </div>
+            <div class="col-xl-5 col-md-6 col-12">
+              <div class="form-group">
+                <label for="helperText"><span style="color: red">*</span> Nombre del Paciente</label>
+                <input type="text" class="form-control" id="nombreCompleto" maxlength="128" required>
+              </div>
+            </div>
+            <div class="col-xl-5 col-md-6 col-12">
+              <div class="form-group">
+                <label class="form-label" for="disabledInput"><span style="color: red">*</span> Nombre del Cirujáno</label>
+                <input type="text" class="form-control" id="nombreCompleto" maxlength="128" required>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="dropdown-divider"></div>
+
+          <div class="row pl-3 pr-3">
+
+            <section class="row">
+              <div class="col-md-12 mt-2">
+                  <h3>Servicios</h3>
+                  <p></p>
+              </div>
+            </section>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">1. Atención en la recepción</label>
+                </div>
+                <div class="col-sm-4">
+                  <ng-template #t let-fill="fill">
+                    <span class="custom-star" [class.custom-full]="fill === 100">
+                      <span class="custom-half" [style.width.%]="fill">
+                        &#9786;
+                      </span>
+                      &#9786;
+                    </span>
+                  </ng-template>
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateUno" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">2. Atención en laboratorio</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateDos" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">3. Atención del cardiólogo</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateTres" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">4. Enfermeras en sala de operaciones</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateCuatro" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">5. Atención del anestesiólogo</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateCinco" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">6. Cirujános</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateSeis" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">7. Enfermeras de hospitalización</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateSiete" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">8. Servicio de alimentación</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateOcho" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">9. Limpieza de las instalaciones</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateNueve" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">10. Atención en presupuestos y
+                    facturación</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateDiez" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.2rem; padding-top: 1.2rem;">11. Sala de estar</label>
+                </div>
+                <div class="col-sm-4">
+
+                  <div class="rating">
+                    <ngb-rating [(rate)]="decimalCurrentRateOnce" [starTemplate]="t" [max]="5" class="outline-none">
+                    </ngb-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <section class="row">
+              <div class="col-md-12 mt-2">
+                  <h3>Satisfacción General</h3>
+                  <p></p>
+              </div>
+            </section>  
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.1rem; padding-top: 0.25rem;">12. ¿Cómo calificaría su experiencia global respecto a los
+                    servicios de salud que ha recibido a través del Hospital?</label>
+                </div>
+                <div class="col-sm-4">
+                  <select class="form-control" id="">
+                    <option value="0" selected>Seleccione</option>
+                    <option value="1">Muy Mala</option>
+                    <option value="2">Regular</option>
+                    <option value="3">Buena</option>
+                    <option value="4">Muy Buena</option>
+                    <option value="5">Excelente</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-12">
+              <div class="form-group row">
+                <div class="col-sm-8 col-form-label">
+                  <label style="font-size: 1.1rem; padding-top: 0.25rem;">13. ¿Recomendaria a sus familiares y amigos este Hospital?</label>
+                </div>
+                <div class="col-sm-4">
+                  
+                  <select class="form-control" id="">
+                    <option value="0" selected>Seleccione</option>
+                    <option value="1">Muy Mala</option>
+                    <option value="2">Regular</option>
+                    <option value="3">Buena</option>
+                    <option value="4">Muy Buena</option>
+                    <option value="5">Excelente</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="comment">Comentarios</label>
+                <textarea class="form-control" rows="6" id="comentarios"></textarea>
+              </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            
+          </div>
+          
+        </div>
+
+        <div class="card-footer">
+
+          <div class="col-sm-9 offset-sm-3 pb-2">
+            <button type="submit" rippleEffect class="btn btn-primary mr-1">Guardar Encuesta</button>
+            <button type="reset" rippleEffect class="btn btn-outline-secondary">Limpiar formulario</button>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+    <!--/ User List -->
+  </div>
+
+</div>

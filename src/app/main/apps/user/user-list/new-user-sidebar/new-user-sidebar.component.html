@@ -1,0 +1,122 @@
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-user-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="submit()"
+        [formGroup]="formUser"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-user-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Usuario</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Nombres</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="firstName"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Apellidos</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="lastName"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-email"
+              ><span style="color: red">*</span> Correo electrónico</label
+            >
+            <input
+              type="email"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              formControlName="email"
+              required
+              aria-label="John Doe"
+              aria-describedby="basic-icon-default-fullname2"
+              [class.error]="emailControlIsInvalid"
+            />
+            <span *ngIf="emailControlIsInvalid" class="invalid-form">
+              <small class="form-text text-danger"
+                >Este campo es requerido!</small
+              >
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="user-role"><span style="color: red">*</span> Rol</label>
+            <!-- <ng-select
+              [items]="roles"
+              bindLabel="label"
+              required
+              formControlName="idrol">
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-label"> {{ item.label }}</span>
+                <span
+                  class="ng-value-icon right"
+                  (click)="clear(item)"
+                  aria-hidden="true"
+                  >×</span>
+              </ng-template>
+            </ng-select> -->
+            <select formControlName="idrol" class="form-control" required>
+              <option value="" selected>Seleccione un rol</option>
+              <option value="1">Administrador</option>
+              <option value="2">Gestor de sede</option>
+              <option value="3">Programaciones</option>
+              <option value="4">sala de operaciones</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            [disabled]="formUser.invalid"
+            rippleEffect
+          >
+            Guardar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-user-sidebar')"
+            rippleEffect
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

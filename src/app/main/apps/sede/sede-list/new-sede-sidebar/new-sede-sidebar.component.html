@@ -1,0 +1,117 @@
+<div class="slideout-content">
+  <!-- Modal to add new sede starts-->
+  <div class="modalsd modal-slide-in sdfade new-sede-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form
+        class="add-new-sede modal-content pt-0"
+        (ngSubmit)="submit()"
+        [formGroup]="formSede"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-sede-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nueva Sede</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              ><span style="color: red">*</span> Sede</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              formControlName="description"
+              required
+              
+            />
+  
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname"
+              ><span style="color: red">*</span> Salas</label
+            >
+            <input
+              type="number"             
+              class="form-control"
+              formControlName="sala"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname"
+              ><span style="color: red">*</span> Cuartos</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              formControlName="cuartos"
+              maxlength="2"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname"
+              ><span style="color: red">*</span> Cubículos</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              formControlName="cubiculos"
+              maxlength="2"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname"
+              ><span style="color: red">*</span> Color</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="color"
+            />
+          </div>
+        <!--   <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="customCheck1"
+                formControlName="visible"
+              />
+              <label class="custom-control-label" for="customCheck1"
+                >Visible en calendario</label
+              >
+            </div>
+          </div> -->
+
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1"
+            [disabled]="formSede.invalid"
+            rippleEffect>
+            Guardar
+          </button>
+
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-sede-sidebar')"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+// @import '@core/scss/angular/libs/datatables.component.scss';
+// @import '@core/scss/base/pages/app-user.scss';
+// @import '@core/scss/angular/libs/select.component.scss';
+
+@import '@core/scss/angular/libs/ratings.component.scss';
+
+.custom-star {
+    position: relative;
+    display: inline-block;
+    font-size: 3rem;
+    color: var(--gray);
+  }
+  .custom-full {
+    color: var(--warning);
+  }
+  .custom-half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color:  var(--warning);
+  }

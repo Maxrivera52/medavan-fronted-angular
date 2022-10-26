@@ -1,0 +1,691 @@
+<!-- Calendar Add/Update/Delete event modal-->
+<div class="modal-dialog sidebar-lg">
+  <div class="modal-content p-0">
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="toggleEventSidebar(); resetchangescombos()"
+    >
+      ×
+    </button>
+    <div class="modal-header mb-1">
+      <h5 class="modal-title">
+        {{ isDataEmpty !== false ? "Registrar" : "Actualizar" }} Evento
+      </h5>
+    </div>
+    <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+      <form class="add-new-user modal-content pt-0" [formGroup]="formCalendar">
+        
+        <!-- doctores -->
+        <!-- grupo duracion -->
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Programación</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <!-- Fecha inicio -->
+                      <div class="form-group position-relative">
+                        <label for="start-date" class="form-label"
+                          ><span style="color: red">*</span> Inicio</label
+                        >
+                        <ng2-flatpickr
+                          [config]="dateOptions"
+                          [setDate]="startDate"
+                          formControlName="start"
+                          #startDatePicker
+                          required
+                        ></ng2-flatpickr>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="select-label" class="form-label"
+                          ><span style="color: red">*</span> Duración</label
+                        >
+                        <ng-select
+                          [items]="duration"
+                          bindLabel="label"
+                          bindValue="label"
+                          formControlName="duration"
+                          required
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            <span
+                              class="bullet bullet-sm mr-50 bullet"
+                            ></span>
+                            {{ item.label }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+
+                      <!-- numero de sala -->
+                      <div class="form-group">
+                        <label for="select-label" class="form-label"
+                          ><span style="color: red">*</span> Número de
+                          sala</label
+                        >
+                        <ng-select
+                          [items]="resourceId"
+                          bindLabel="label"
+                          bindValue="label"
+                          formControlName="resourceId"
+                          required
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+
+                            <span
+                              class="bullet bullet-sm mr-50 bullet"
+                            ></span>
+                            {{ item.label }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- fin grupo duracion -->
+
+        <!-- grupo doctores -->
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Cirujano</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <div class="form-group">
+                        <label class="form-label" for="user-role"
+                          ><span style="color: red">*</span> Seleccione o
+                          registre un nuevo cirujano</label
+                        >
+
+                        <ng-select
+                          *ngIf="doctorsSelect$ | async as doctors"
+                          [items]="doctors.data"
+                          bindLabel="firstLastname"
+                          bindValue="idDoctor"
+                          formControlName="iddoctor"
+                          (change)="doctorchange()"
+                          [searchable]="true">
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+
+                            {{
+                              item.name + " " + item.firstLastname + " " + item.secondLastname
+                            }}
+                          </ng-template>
+                        </ng-select>
+                        <!--  -->
+                      </div>
+                      <!-- registro de doctores -->
+                      <div class="form-group" *ngIf="ShowDoctorInputs">
+                        <label for="title" class="form-label"
+                          ><span style="color: red">*</span> Apellido
+                          Paterno</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="firstLastnamedoctor"
+                        />
+                      </div>
+                      <div class="form-group" *ngIf="ShowDoctorInputs">
+                        <label for="title" class="form-label"
+                          >Apellido Materno</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="secondLastnamedoctor"
+                        />
+                      </div>
+                      <div class="form-group" *ngIf="ShowDoctorInputs">
+                        <label for="title" class="form-label">Nombres</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="namedoctor"
+                        />
+                      </div>
+                      <label for="title" class="form-label"
+                        ><span style="color: red">*</span>Seleccion la
+                        especialidad</label
+                      >
+                      <div class="form-group" *ngIf="ShowDoctorInputs">
+                        <ng-select
+                          *ngIf="specialtySelect$ | async as specialtys"
+                          [items]="specialtys.data"
+                          bindLabel="description"
+                          bindValue="idSpecialty"
+                          formControlName="idspecialty"
+                          (change)="selectCirugia()"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.description }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                      <!--  -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- fin grupo doctores -->
+
+        <!-- grupo cirugia -->
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Cirugía</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <!-- cirugia -->
+                      <div class="form-group">
+                        <label class="form-label" for="user-role"
+                          ><span style="color: red">*</span> Seleccione o
+                          registre una nueva cirugía</label
+                        >
+                        <ng-select
+                          *ngIf="cirugiaSelect$ | async as cirugias"
+                          [items]="cirugias.data"
+                          bindLabel="description"
+                          bindValue="idCirugia"
+                          formControlName="idcirugia"
+                          (change)="cirugiachange()"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.description }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                      <!-- registro de cirugia -->
+                      <div class="form-group" *ngIf="ShowCirugiaInputs">
+                        <label for="title" class="form-label"
+                          >Descripcion de la cirugía</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="descriptioncirugia"
+                        />
+                      </div>
+                      <!-- anestesia -->
+
+                      <div class="form-group">
+                        <label class="form-label" for="user-role"
+                          ><span style="color: red">*</span> Seleccione la
+                          anestesia</label
+                        >
+                        <ng-select
+                          *ngIf="anesthesiaSelect$ | async as antesthesias"
+                          [items]="antesthesias.data"
+                          bindLabel="description"
+                          bindValue="idAnesthesia"
+                          formControlName="idanesthesia"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.description }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                      <!--  -->
+                      <!-- Dias de hospitalización -->
+                      <div class="form-group">
+                        <label for="title" class="form-label">
+                          <span style="color: red">*</span> Días de
+                          hospitalización</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          formControlName="hospitalDays"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- din de grupo cirugia -->
+
+        <!-- grupo pacientes -->
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Paciente</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <div class="form-group">
+                        <label class="form-label" for="user-role"
+                          >Seleccione o registre un nuevo paciente</label
+                        >
+
+                        <ng-select
+                          *ngIf="patientSelect$ | async as patients"
+                          [items]="patients.data"
+                          bindLabel="last_name"
+                          bindValue="idPatient"
+                          formControlName="idpatient"
+                          (change)="patientchange()"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.firstName + " " + item.lastName }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                      <!-- registro de pacientes -->
+                      <div class="form-group" *ngIf="ShowPatientInputs">
+                        <label for="title" class="form-label"
+                          >Nombres del paciente</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="firstnamepatient"
+                        />
+                      </div>
+                      <div class="form-group" *ngIf="ShowPatientInputs">
+                        <label for="title" class="form-label"
+                          >Apellidos del paciente</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="lastnamepatient"
+                        />
+                      </div>
+                      <!-- agregar edad al backend -->
+                      <!-- numero de sala -->
+                      <div class="form-group" *ngIf="ShowPatientInputs">
+                        <label for="title" class="form-label">Edad</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          formControlName="agepacient"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- fin grupo pacientes -->
+
+        <!-- grupo diagnostico -->
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Diagnostico</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <!-- diagnostico -->
+                      <div class="form-group">
+                        <label class="form-label" for="user-role"
+                          ><span style="color: red">*</span> Seleccione o
+                          registre un diagnostico</label
+                        >
+                        <!--  -->
+                        <ng-select
+                          *ngIf="diagnosticoSelect$ | async as diagnosticos"
+                          [items]="diagnosticos.data"
+                          bindLabel="description"
+                          bindValue="idDiagnostic"
+                          formControlName="iddiagnostic"
+                          (change)="diagnostichange()"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.description }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                      <!-- Registro de diagnostico -->
+                      <div class="form-group" *ngIf="ShowDiagnosticInputs">
+                        <label for="title" class="form-label"
+                          >Descripcion de diagnostico</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="descriptiondiagnostic"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- fin grupo diagnostico -->
+
+        <!-- grupo procedencia -->
+
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Procedencia</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <!-- Procedencia -->
+                      <div class="form-group">
+                        <label class="form-label" for="user-role"
+                          ><span style="color: red">*</span> Seleccionar o
+                          registrar nueva procedencia</label
+                        >
+                        <!--  -->
+                        <ng-select
+                          *ngIf="originSelect$ | async as origins"
+                          [items]="origins.data"
+                          bindLabel="description"
+                          bindValue="idSource"
+                          formControlName="idsource"
+                          (change)="procedenciachange()"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.description }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                      <!-- Registro de procedencia -->
+                      <div class="form-group" *ngIf="ShowProcedenciaInputs">
+                        <label for="title" class="form-label"
+                          >Nombre de procedencia</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="namesource"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- grupo material -->
+
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Equipos y materiales especiales</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <div class="form-group">
+                        <label class="form-label" for="user-role">
+                          Seleccione un equipo.</label
+                        >
+                        <ng-select
+                          *ngIf="equipoSelect$ | async as equipos"
+                          [items]="equipos.data"
+                          bindLabel="description"
+                          bindValue="idEquipment"
+                          formControlName="idequipment"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.name }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                      <!-- Material -->
+                      <div class="form-group">
+                        <label class="form-label" for="user-role">
+                          Seleccione un material.</label
+                        >
+                        <ng-select
+                          *ngIf="materialSelect$ | async as materials"
+                          [items]="materials.data"
+                          bindLabel="nameMaterial"
+                          bindValue="idMaterial"
+                          formControlName="idmaterial"
+                          [searchable]="true"
+                        >
+                          <ng-template
+                            ng-option-tmp
+                            ng-label-tmp
+                            let-item="item"
+                          >
+                            {{ item.nameMaterial }}
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- grupo datos -->
+
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Observaciones</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <!-- observaciones -->
+                      <div class="form-group">
+                        <label for="title" class="form-label"
+                          >Observaciones</label
+                        >
+                        <textarea
+                          type="text"
+                          class="form-control"
+                          formControlName="observations"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- fin de grupo datos -->
+
+        <!-- grupo etiquetas -->
+        <section class="multiple-select">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Etiquetas</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <div class="form-group">
+                        <!-- Add custom Tag -->
+                        <ng-select
+                          *ngIf="materialSelect$ | async as materials"
+                          [items]="materials.data"
+                          [addTag]="true"
+                          multiple="true"
+                          bindLabel="nameMaterial"
+                          formControlName="etiqueta"
+                          (change)="changeprueba()"
+                        >
+                          <ng-template
+                            ng-label-tmp
+                            let-item="item"
+                            let-clear="clear"
+                          >
+                            <span class="ng-value-label">
+                              {{ item.nameMaterial }}</span
+                            >
+                            <span
+                              class="ng-value-icon right"
+                              (click)="clear(item)"
+                              aria-hidden="true"
+                              >×</span
+                            >
+                          </ng-template>
+                        </ng-select>
+                        <!--/ Add custom Tag -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- fin de grupo de etiquetas -->
+        <!--buttons-->
+
+        <section class="">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <div class="form-group d-flex">
+                        
+                          <button
+                            type="submit"
+                            class="btn btn-primary mr-1"
+                            rippleEffect
+                            *ngIf="isDataEmpty !== false; else updateEventRef;"
+                            (click)="submit()"
+                          >
+                            Guardar
+                          </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-secondary btn-cancel"
+                          data-dismiss="modal"
+                          (click)="toggleEventSidebar(); resetchangescombos()"
+                          *ngIf="isDataEmpty !== false; else deleteEventRef"
+                          rippleEffect
+                        >
+                          Cancelar
+                        </button>
+                        <ng-template #updateEventRef>
+                          <button
+                            type="submit"
+                            class="btn btn-primary update-event-btn mr-1"
+                            *ngIf="isDataEmpty !== true; else updateEventRef"
+                            (click)="updateEvent()"
+                            rippleEffect
+                          >
+                            Guardar
+                          </button>
+                        </ng-template>
+                        <ng-template #deleteEventRef>
+                          <button
+                            class="btn btn-outline-danger btn-delete-event"
+                            (click)="toggleEventSidebar(); resetchangescombos()"
+                            rippleEffect
+                          >
+                          <!-- (click)="deleteEvent()" -->
+                             Cancelar
+                          </button>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </form>
+    </div>
+  </div>
+</div>
+<!--/ Calendar Add/Update/Delete event modal-->

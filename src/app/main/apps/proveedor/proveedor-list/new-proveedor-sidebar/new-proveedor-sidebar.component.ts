@@ -1,0 +1,177 @@
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { IDocumentTypeResponse } from "@core/models/selects.model";
+import { SelectService } from "app/services/select.service";
+
+import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
+import { Observable, Subscription } from "rxjs";
+import { IProveedor } from "../../models/proveedor.model";
+
+import { ProveedorListService } from "../proveedor-list.service";
+import { IResponseGetList } from "@core/models/response-http.model";
+@Component({
+  selector: "app-new-proveedor-sidebar",
+  templateUrl: "./new-proveedor-sidebar.component.html",
+})
+export class NewProveedorSidebarComponent implements OnInit {
+  formProveedor: FormGroup;
+
+  documentTypeSelect$: Observable<IResponseGetList<IDocumentTypeResponse>>;
+
+  private _subscription: Subscription;
+  private _proveedorForEdit: IProveedor | null;
+
+  get iddocumentTypeControlIsInvalid(): boolean {
+    const iddocumentType = this.formProveedor.get("iddocumentType");
+    return iddocumentType.touched && iddocumentType.invalid;
+  }
+  get documentNumberControlIsInvalid(): boolean {
+    const documentNumber = this.formProveedor.get("documentNumber");
+    return documentNumber.touched && documentNumber.invalid;
+  }
+  get businessnameControlIsInvalid(): boolean {
+    const businessname = this.formProveedor.get("businessname");
+    return businessname.touched && businessname.invalid;
+  }
+
+  typedocs = [
+    {id: 1, name: 'RUC'},
+    {id: 2, name: 'DNI'}
+  ];
+
+  selectedTypeDoc: any;
+
+  constructor(
+    private _coreSidebarService: CoreSidebarService,
+    private _fb: FormBuilder,
+    private _proveedorListService: ProveedorListService,
+    private _selectsService: SelectService
+  ) {
+    this.formProveedor = this._fb.group({
+      iddocumentType: new FormControl(null, Validators.required),
+      documentNumber: new FormControl(null, Validators.required),
+      businessname: new FormControl(null, Validators.required),
+      phone: new FormControl(),
+      email: new FormControl(),
+      representativeName: new FormControl(),
+      representativePhone: new FormControl(),
+      representativeEmail: new FormControl(),
+    });
+
+    this.documentTypeSelect$ = new Observable();
+
+    this._subscription = new Subscription();
+    this._proveedorForEdit = null;
+  }
+
+  ngOnInit(): void {
+    // call selects
+    this.documentTypeSelect$ = this._selectsService.getDocumentTypes();
+
+    const subscription =
+      this._proveedorListService.proveedorSelected$.subscribe({
+        next: (proveedor) => {
+          this._proveedorForEdit = proveedor;
+
+          if (this._proveedorForEdit) {
+            this.formProveedor.patchValue({
+              iddocumentType: proveedor.iddocumentType,
+              documentNumber: proveedor.documentNumber,
+              businessname: proveedor.businessname,
+              phone: proveedor.phone,
+              email: proveedor.email,
+              representativeName: proveedor.representativeName,
+              representativePhone: proveedor.representativePhone,
+              representativeEmail: proveedor.representativeEmail,
+            });
+          }
+        },
+      });
+
+    this._subscription.add(subscription);
+  }
+  ngOndestroy(): void {
+    this._subscription.unsubscribe();
+    this._proveedorListService.proveedorSelected$.unsubscribe();
+    this._proveedorListService.proveedorSelected$.complete();
+  }
+
+  toggleSidebar(name): void {
+    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+    this.formProveedor.reset();
+    this._proveedorListService.proveedorSelected$.next(null);
+  }
+
+  submit() {
+    if (this.formProveedor.invalid) return;
+
+    const {
+      iddocumentType,
+      documentNumber,
+      businessname,
+      phone,
+      email,
+      representativeName,
+      representativePhone,
+      representativeEmail,
+    } = this.formProveedor.value;
+
+    let subscription;
+
+    if (!this._proveedorForEdit) {
+      subscription = this._proveedorListService
+        .createProveedor({
+          iddocument_type: iddocumentType,
+          document_number: documentNumber,
+          businessname: businessname,
+          phone: phone,
+          email: email,
+          representative_name: representativeName,
+          representative_phone: representativePhone,
+          representative_email: representativeEmail,
+        })
+        .subscribe({
+          next: (response) => {
+            //do something
+            this.toggleSidebar("new-proveedor-sidebar");
+            this.formProveedor.reset();
+            this._proveedorListService.changeList$.next();
+          },
+          error: () => {
+            // do something
+          },
+        });
+    } else {
+      subscription = this._proveedorListService
+        .updateProveedor({
+          id: this._proveedorForEdit.idSupplier,
+          iddocument_type: iddocumentType,
+          document_number: documentNumber,
+          businessname: businessname,
+          phone: phone,
+          email: email,
+          representative_name: representativeName,
+          representative_phone: representativePhone,
+          representative_email: representativeEmail,
+        })
+        .subscribe({
+          next: (response) => {
+            //do something
+            this.toggleSidebar("new-proveedor-sidebar");
+            this.formProveedor.reset();
+            this._proveedorListService.changeList$.next();
+          },
+          error: () => {
+            // do something
+          },
+        });
+    }
+
+    this._subscription.add(subscription);
+  }
+}
