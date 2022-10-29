@@ -14,12 +14,17 @@ import { IProveedor } from "../../models/proveedor.model";
 
 import { ProveedorListService } from "../proveedor-list.service";
 import { IResponseGetList } from "@core/models/response-http.model";
+import { IMaterial } from "app/main/apps/material/models/material.model";
+import { MaterialListService } from "app/main/apps/material/materials-list/materials-list.service";
 @Component({
   selector: "app-new-proveedor-sidebar",
   templateUrl: "./new-proveedor-sidebar.component.html",
 })
 export class NewProveedorSidebarComponent implements OnInit {
   formProveedor: FormGroup;
+
+
+  materialSelect$: Observable<IResponseGetList<IMaterial>>;
 
   documentTypeSelect$: Observable<IResponseGetList<IDocumentTypeResponse>>;
 
@@ -45,12 +50,14 @@ export class NewProveedorSidebarComponent implements OnInit {
   ];
 
   selectedTypeDoc: any;
+  materialListTags:any[];
 
   constructor(
     private _coreSidebarService: CoreSidebarService,
     private _fb: FormBuilder,
     private _proveedorListService: ProveedorListService,
-    private _selectsService: SelectService
+    private _selectsService: SelectService,
+    private _materialListService: MaterialListService,
   ) {
     this.formProveedor = this._fb.group({
       iddocumentType: new FormControl(null, Validators.required),
@@ -64,6 +71,7 @@ export class NewProveedorSidebarComponent implements OnInit {
     });
 
     this.documentTypeSelect$ = new Observable();
+    this.materialSelect$ = new Observable();
 
     this._subscription = new Subscription();
     this._proveedorForEdit = null;
@@ -72,6 +80,11 @@ export class NewProveedorSidebarComponent implements OnInit {
   ngOnInit(): void {
     // call selects
     this.documentTypeSelect$ = this._selectsService.getDocumentTypes();
+    this.materialSelect$ = this._materialListService.getMaterials();
+
+    this._proveedorListService.getSupplierMaterialDetail().subscribe(x=>{
+      console.log(x)
+    })
 
     const subscription =
       this._proveedorListService.proveedorSelected$.subscribe({
@@ -121,6 +134,20 @@ export class NewProveedorSidebarComponent implements OnInit {
       representativeEmail,
     } = this.formProveedor.value;
 
+    let materiallistob = []
+    
+    
+    console.log({
+      iddocument_type: iddocumentType,
+      document_number: documentNumber,
+      businessname: businessname,
+      phone: phone,
+      email: email,
+      representative_name: representativeName,
+      representative_phone: representativePhone,
+      representative_email: representativeEmail,
+    })
+
     let subscription;
 
     if (!this._proveedorForEdit) {
@@ -134,10 +161,19 @@ export class NewProveedorSidebarComponent implements OnInit {
           representative_name: representativeName,
           representative_phone: representativePhone,
           representative_email: representativeEmail,
+          listMaterials: this.materialListTags
         })
         .subscribe({
           next: (response) => {
             //do something
+            //for(let i of this.materialListTags){
+             // materiallistob.push({idsupplier:response})
+            //}
+
+            console.log(response)
+            //return
+            //this._proveedorListService.createSupplierMaterialDetail(this.ma)
+
             this.toggleSidebar("new-proveedor-sidebar");
             this.formProveedor.reset();
             this._proveedorListService.changeList$.next();
@@ -158,9 +194,12 @@ export class NewProveedorSidebarComponent implements OnInit {
           representative_name: representativeName,
           representative_phone: representativePhone,
           representative_email: representativeEmail,
+          listMaterials: this.materialListTags
         })
         .subscribe({
           next: (response) => {
+            
+            
             //do something
             this.toggleSidebar("new-proveedor-sidebar");
             this.formProveedor.reset();
@@ -174,4 +213,11 @@ export class NewProveedorSidebarComponent implements OnInit {
 
     this._subscription.add(subscription);
   }
+
+  changeMaterial($event:any){
+    this.materialListTags = $event
+    console.log($event);
+    //console.warn(this.materialSelect$)
+  }
+
 }

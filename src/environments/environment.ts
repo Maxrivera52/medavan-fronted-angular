@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   hmr: false,
-  apiUrl: 'http://127.0.0.1:8000/api'
+  //apiUrl: 'http://127.0.0.1:8000/api'
+  apiUrl: 'http://178.128.158.138:8092'
 };
 // apiUrl: 'http://127.0.0.1:8000/api'
 /*

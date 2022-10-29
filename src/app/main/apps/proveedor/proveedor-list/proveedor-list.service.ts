@@ -16,10 +16,12 @@ import {
   IProveedorPost,
   IProveedorPut,
   IProveedorResponse,
+  ISupplierMaterialDetail,
 } from "../models/proveedor.model";
 import { IResponseGetList } from "@core/models/response-http.model";
 import { map } from "rxjs/operators";
 import { proveedorAdapter } from "../adapters/proveedor.adapter";
+import { supplierMaterialDetailAdapterc} from "../adapters/supplier-material-detail.adapter"
 
 @Injectable({
   providedIn: "root",
@@ -41,7 +43,7 @@ export class ProveedorListService implements Resolve<any> {
   }
 
 
-  createProveedor(proveedor: IProveedorPost): Observable<IResponse> {
+  createProveedor(proveedor: any): Observable<IResponse> {
     return this._httpClient.post<IResponse>(`${this._url}/supplier`, proveedor);
   }
 
@@ -60,7 +62,7 @@ export class ProveedorListService implements Resolve<any> {
       );
   }
 
-  updateProveedor(proveedorPut: IProveedorPut): Observable<IResponse> {
+  updateProveedor(proveedorPut: any): Observable<IResponse> {
     return this._httpClient.put<IResponse>(
       `${this._url}/supplier/${proveedorPut.id}`,
       proveedorPut
@@ -93,4 +95,28 @@ export class ProveedorListService implements Resolve<any> {
       }, reject);
     });
   }
+
+
+
+
+  /////////// SUPPLIER DETAIL WITH MATERIAL
+  createSupplierMaterialDetail(model: any): Observable<IResponse> {
+    return this._httpClient.post<IResponse>(`${this._url}/suppliermaterialdetail`, model);
+  }
+
+  getSupplierMaterialDetail(): Observable<IResponseGetList<ISupplierMaterialDetail>> {
+    return this._httpClient
+      .get<IResponseGetList<ISupplierMaterialDetail>>(`${this._url}/suppliermaterialdetail`)
+      .pipe(
+        map(
+          (
+            response: IResponseGetList<ISupplierMaterialDetail>
+          ): IResponseGetList<ISupplierMaterialDetail> => ({
+            count: response.count,
+            data: response.data.map(supplierMaterialDetailAdapterc),
+          })
+        )
+      );
+  }
+
 }

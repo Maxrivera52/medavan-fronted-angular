@@ -48,3 +48,11 @@ export interface IProveedorResponse {
 export interface IDocumenttype {
   description: string;
 }
+
+export interface ISupplierMaterialDetail{
+  id:number;
+  idsupplier:number;
+  idmaterial:number;
+  created_at: Date;
+  updated_at: Date;
+}

@@ -52,7 +52,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   public calendarOptions: CalendarOptions = {
     schedulerLicenseKey: "CC-Attribution-NonCommercial-NoDerivatives",
-    eventResizableFromStart: true,
+    eventResizableFromStart: false,
     timeZone: "local",
     headerToolbar: {
       left: "sidebarToggle, prev,next, title",
@@ -66,8 +66,9 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     datesAboveResources: true,
     selectable: true,
     selectMirror: true,
-    dayMaxEvents: 2,
-    eventMaxStack: 2,
+    
+    dayMaxEvents: 1,
+    eventMaxStack: 1,
     navLinks: true,
 
     slotEventOverlap: false,

@@ -32,7 +32,8 @@
               "contra/emitter",
               "crossvent",
               "highlight.js",
-              "ng2-flatpickr"
+              "ng2-flatpickr",
+              "sweetalert2"
             ],
             "outputPath": "dist/medavan",
             "index": "src/index.html",

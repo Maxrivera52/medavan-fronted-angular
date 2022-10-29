@@ -191,6 +191,55 @@
             />
           </div>
 
+<!-- grupo etiquetas -->
+<section class="multiple-select">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Materiales</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12 col-12">
+              <div class="form-group">
+                <!-- Add custom Tag -->
+                <ng-select
+                  *ngIf="materialSelect$ | async as materials"
+                  [items]="materials.data"
+                  [addTag]="true"
+                  multiple="true"
+                  bindLabel="nameMaterial"
+                  formControlName="etiqueta"
+                  (change)="changeMaterial($event)"
+                >
+                  <ng-template
+                    ng-label-tmp
+                    let-item="item"
+                    let-clear="clear"
+                  >
+                    <span class="ng-value-label">
+                      {{ item.nameMaterial }}</span
+                    >
+                    <span
+                      class="ng-value-icon right"
+                      (click)="clear(item)"
+                      aria-hidden="true"
+                      >×</span
+                    >
+                  </ng-template>
+                </ng-select>
+                <!--/ Add custom Tag -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- fin de grupo de etiquetas -->
+
           <button
             type="submit"
             class="btn btn-primary mr-1"

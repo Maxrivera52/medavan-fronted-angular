@@ -70,13 +70,17 @@ export class CalendarService implements Resolve<any> {
   }
 
   editMedicalEvent(medicalevent: ICalendarPost): Observable<ICalendar> {
-    return this._httpClient.put<ICalendar>(
+    console.log(medicalevent)
+    let res = this._httpClient.put<ICalendar>(
       `${this._url}/medicalevent/${medicalevent.id}`,
       medicalevent
-    );
+    )
+    //res.subscribe(x=>console.log(x))
+    return res
   }
 
   getMedicalEvents(): Observable<IResponseGetList<ICalendar>> {
+    this._httpClient.get(`${this._url}/medicalevent`).subscribe(x=>console.log(x))
     return this._httpClient
       .get<IResponseGetList<ICalendarResponse>>(`${this._url}/medicalevent`)
       .pipe(

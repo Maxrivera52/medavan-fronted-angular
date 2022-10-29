@@ -24,6 +24,7 @@ import { CalendarEventSidebarComponent } from "app/main/apps/calendar/calendar-s
 import { CalendarMainSidebarComponent } from "app/main/apps/calendar/calendar-sidebar/calendar-main-sidebar/calendar-main-sidebar.component";
 
 import { CalendarComponent } from "app/main/apps/calendar/calendar.component";
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -58,6 +59,7 @@ const routes: Routes = [
     Ng2FlatpickrModule,
     NgSelectModule,
     NgbModule,
+    SweetAlert2Module
   ],
   providers: [],
 })

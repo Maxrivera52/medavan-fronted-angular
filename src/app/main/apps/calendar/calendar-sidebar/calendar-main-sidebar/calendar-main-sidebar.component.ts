@@ -74,6 +74,9 @@ export class CalendarMainSidebarComponent implements OnInit {
    * @param event
    */
   toggleCheckboxAll(event) {
+    console.info(event);
+    console.info(this.calendarRef)
+
     this.checkAll = event.target.checked;
     if (this.checkAll) {
       this.calendarRef.map(res => {
@@ -84,7 +87,7 @@ export class CalendarMainSidebarComponent implements OnInit {
         res.checked = false;
       });
     }
-    console.log(event);
+    
     /* this._calendarService.calendarUpdate(this.calendarRef); */
   }
 

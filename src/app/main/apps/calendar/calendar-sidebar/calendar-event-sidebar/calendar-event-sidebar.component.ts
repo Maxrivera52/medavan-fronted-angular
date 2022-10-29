@@ -57,6 +57,7 @@ import { IEquipo } from "../../../equipo/models/equipo.model";
 import { EventClickArg } from "@fullcalendar/core";
 import { stringify } from "querystring";
 import { id } from '@swimlane/ngx-datatable';
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-calendar-event-sidebar",
@@ -477,12 +478,21 @@ export class CalendarEventSidebarComponent implements OnInit, AfterViewInit {
         observations: observations,
       })
       .subscribe({
-        next: (response) => {
+        next: (response:any) => {
+          this._calendarService.onEventChange.next();
+          //console.warn(response)
+          if(response?.code == -1){
+            Swal.fire('Error',response?.message,'error')
+            return
+          }else if(response?.code == -2){
+            Swal.fire('Precaución',response?.message,'warning')
+          }
+          Swal.fire('Éxito',response?.message,'success')
           //do something
           comesFromComponent && this.toggleEventSidebar();
           this.resetValues();
           this.resetchangescombos();
-          this._calendarService.onEventChange.next();
+          
         },
         error: () => {
           // do something
