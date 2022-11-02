@@ -200,6 +200,7 @@
           <h5 class="card-title">Materiales</h5>
         </div>
         <div class="card-body">
+         
           <div class="row">
             <div class="col-sm-12 col-12">
               <div class="form-group">
@@ -208,29 +209,38 @@
                   *ngIf="materialSelect$ | async as materials"
                   [items]="materials.data"
                   [addTag]="true"
-                  multiple="true"
+                  [multiple]="true"
                   bindLabel="nameMaterial"
-                  formControlName="etiqueta"
+                  [formControlName]="etiqueta"
                   (change)="changeMaterial($event)"
+                  
                 >
-                  <ng-template
-                    ng-label-tmp
-                    let-item="item"
-                    let-clear="clear"
-                  >
-                    <span class="ng-value-label">
-                      {{ item.nameMaterial }}</span
-                    >
-                    <span
-                      class="ng-value-icon right"
-                      (click)="clear(item)"
-                      aria-hidden="true"
-                      >×</span
-                    >
-                  </ng-template>
+                <ng-template
+                ng-label-tmp
+                let-item="item"
+                let-clear="clear"
+              >
+                <span class="ng-value-label">
+                  {{ item.nameMaterial }}</span
+                >
+                <span
+                  class="ng-value-icon right"
+                  (click)="clear(item)"
+                  aria-hidden="true"
+                  >×</span
+                >
+              </ng-template>
+
                 </ng-select>
                 <!--/ Add custom Tag -->
               </div>
+            </div>
+          </div>
+          <div *ngIf="provMaterialDetailListNames">
+            <div *ngFor="let it of provMaterialDetailListNames; index as i">
+              <ul>
+                <li>{{it.description}}</li>
+              </ul>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  NgSelectOption,
   Validators,
 } from "@angular/forms";
 import { IDocumentTypeResponse } from "@core/models/selects.model";
@@ -45,12 +46,16 @@ export class NewProveedorSidebarComponent implements OnInit {
   }
 
   typedocs = [
-    {id: 1, name: 'RUC'},
-    {id: 2, name: 'DNI'}
+    { id: 1, name: 'RUC' },
+    { id: 2, name: 'DNI' }
   ];
 
   selectedTypeDoc: any;
-  materialListTags:any[];
+  allMaterialListDetail: any = [];
+  provMaterialDetailList: any = [];
+  provMaterialDetailListNames: any = [];
+  materialListTags: any = [];
+
 
   constructor(
     private _coreSidebarService: CoreSidebarService,
@@ -82,39 +87,64 @@ export class NewProveedorSidebarComponent implements OnInit {
     this.documentTypeSelect$ = this._selectsService.getDocumentTypes();
     this.materialSelect$ = this._materialListService.getMaterials();
 
-    this._proveedorListService.getSupplierMaterialDetail().subscribe(x=>{
+    this._proveedorListService.getSupplierMaterialDetail().subscribe(x => {
       console.log(x)
+      this.allMaterialListDetail = x
+
+      const subscription =
+        this._proveedorListService.proveedorSelected$.subscribe({
+          next: (proveedor) => {
+            this._proveedorForEdit = proveedor;
+            console.log(this._proveedorForEdit)
+            console.log(this.allMaterialListDetail)
+            console.log(this.provMaterialDetailList)
+            console.log(this.materialSelect$)
+
+
+            if (this._proveedorForEdit) {
+              this.formProveedor.patchValue({
+                iddocumentType: proveedor.iddocumentType,
+                documentNumber: proveedor.documentNumber,
+                businessname: proveedor.businessname,
+                phone: proveedor.phone,
+                email: proveedor.email,
+                representativeName: proveedor.representativeName,
+                representativePhone: proveedor.representativePhone,
+                representativeEmail: proveedor.representativeEmail,
+              });
+
+              console.log(this.allMaterialListDetail)
+              this.provMaterialDetailList = this.allMaterialListDetail?.data?.filter(x => x.idsupplier == proveedor.idSupplier)
+              this.materialSelect$.subscribe(x => {
+                this.provMaterialDetailListNames = []
+                this.provMaterialDetailList?.forEach(e => {
+                  let name = x.data.find(c => c.idMaterial == e.idmaterial)
+                  this.provMaterialDetailListNames.push(name)
+                });
+
+              })
+
+
+            }
+          },
+        });
+      this._subscription.add(subscription);
     })
 
-    const subscription =
-      this._proveedorListService.proveedorSelected$.subscribe({
-        next: (proveedor) => {
-          this._proveedorForEdit = proveedor;
-
-          if (this._proveedorForEdit) {
-            this.formProveedor.patchValue({
-              iddocumentType: proveedor.iddocumentType,
-              documentNumber: proveedor.documentNumber,
-              businessname: proveedor.businessname,
-              phone: proveedor.phone,
-              email: proveedor.email,
-              representativeName: proveedor.representativeName,
-              representativePhone: proveedor.representativePhone,
-              representativeEmail: proveedor.representativeEmail,
-            });
-          }
-        },
-      });
-
-    this._subscription.add(subscription);
   }
   ngOndestroy(): void {
+    this.materialListTags = []
+    this.materialSelect$ = null;
     this._subscription.unsubscribe();
     this._proveedorListService.proveedorSelected$.unsubscribe();
     this._proveedorListService.proveedorSelected$.complete();
   }
 
   toggleSidebar(name): void {
+    this.allMaterialListDetail = []
+    this.materialListTags = []
+    this.provMaterialDetailList = []
+    this.provMaterialDetailListNames = []
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
     this.formProveedor.reset();
     this._proveedorListService.proveedorSelected$.next(null);
@@ -135,8 +165,8 @@ export class NewProveedorSidebarComponent implements OnInit {
     } = this.formProveedor.value;
 
     let materiallistob = []
-    
-    
+
+
     console.log({
       iddocument_type: iddocumentType,
       document_number: documentNumber,
@@ -167,7 +197,7 @@ export class NewProveedorSidebarComponent implements OnInit {
           next: (response) => {
             //do something
             //for(let i of this.materialListTags){
-             // materiallistob.push({idsupplier:response})
+            // materiallistob.push({idsupplier:response})
             //}
 
             console.log(response)
@@ -183,6 +213,14 @@ export class NewProveedorSidebarComponent implements OnInit {
           },
         });
     } else {
+      let listmaterials = this.materialListTags
+      console.warn("---------")
+      console.log(listmaterials)
+      console.log(this.provMaterialDetailList)
+      if (this.materialListTags.length == 0) {
+        listmaterials = this.provMaterialDetailList
+      }
+      console.log(listmaterials)
       subscription = this._proveedorListService
         .updateProveedor({
           id: this._proveedorForEdit.idSupplier,
@@ -198,8 +236,8 @@ export class NewProveedorSidebarComponent implements OnInit {
         })
         .subscribe({
           next: (response) => {
-            
-            
+
+
             //do something
             this.toggleSidebar("new-proveedor-sidebar");
             this.formProveedor.reset();
@@ -214,9 +252,10 @@ export class NewProveedorSidebarComponent implements OnInit {
     this._subscription.add(subscription);
   }
 
-  changeMaterial($event:any){
+  changeMaterial($event: any) {
     this.materialListTags = $event
     console.log($event);
+
     //console.warn(this.materialSelect$)
   }
 
