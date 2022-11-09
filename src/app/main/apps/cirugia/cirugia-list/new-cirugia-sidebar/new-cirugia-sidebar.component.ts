@@ -16,6 +16,8 @@ import { ISpecialty } from "../../../specialty/models/specialty.model";
 import { SpecialtyListService } from "../../../specialty/specialty-list/specialty-list.service";
 
 import { IResponseGetList } from "@core/models/response-http.model";
+import { EquipoListService } from "app/main/apps/equipo/equipo-list/equipo-list.service";
+import { IEquipo } from "app/main/apps/equipo/models/equipo.model";
 @Component({
   selector: "app-new-cirugia-sidebar",
   templateUrl: "./new-cirugia-sidebar.component.html",
@@ -28,13 +30,16 @@ export class NewCirugiaSidebarComponent implements OnInit {
 
   specialtySelect$: Observable<IResponseGetList<ISpecialty>>;
 
+  equipmentSelect$: Observable<IResponseGetList<IEquipo>>;
+
   idcirugia:number = 0;
   idequipo:number = 0;
   constructor(
     private _coreSidebarService: CoreSidebarService,
     private _fb: FormBuilder,
     private _cirugiaListService: CirugiaListService,
-    private _specialtyService: SpecialtyListService
+    private _specialtyService: SpecialtyListService,
+    private _equipmentService: EquipoListService
   ) {
     
     this.formCirugia = this._fb.group({
@@ -43,6 +48,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
     });
 
     this.specialtySelect$ = new Observable();
+    this.equipmentSelect$ = new Observable();
 
     this._subscription = new Subscription();
     this._cirugiaForEdit = null;
@@ -51,6 +57,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
   ngOnInit(): void {
     // call selects
     this.specialtySelect$ = this._specialtyService.getSpecialtys();
+    this.equipmentSelect$ = this._equipmentService.getEquipos();
 
     const subscription = this._cirugiaListService.cirugiaSelected$.subscribe({
       next: (cirugia) => {
@@ -77,6 +84,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
 
   toggleSidebar(name): void {
     this.idcirugia = 0;
+    this.idequipo = 0;
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
     this.formCirugia.reset();
     this._cirugiaListService.cirugiaSelected$.next(null);

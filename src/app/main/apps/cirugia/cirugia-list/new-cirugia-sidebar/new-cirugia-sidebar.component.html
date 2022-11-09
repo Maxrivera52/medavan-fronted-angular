@@ -74,7 +74,7 @@
               </option>
             </select> -->
           </div>
-
+          
 
           <div class="form-group">
             <ng-container *ngIf="idcirugia > 0">
@@ -82,8 +82,8 @@
             </ng-container>
           </div>
           <div class="form-group">
-            <ng-container *ngIf="idequipo > 0">
-              <app-modal-cirdetequip [idequipo]="idequipo"></app-modal-cirdetequip>
+            <ng-container *ngIf="idcirugia > 0">
+              <app-modal-cirdetequip [idcirugia]="idcirugia"></app-modal-cirdetequip>
             </ng-container>
           </div>
 
