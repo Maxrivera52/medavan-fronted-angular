@@ -28,12 +28,14 @@ export class NewCirugiaSidebarComponent implements OnInit {
 
   specialtySelect$: Observable<IResponseGetList<ISpecialty>>;
 
+  idcirugia:number = 0;
   constructor(
     private _coreSidebarService: CoreSidebarService,
     private _fb: FormBuilder,
     private _cirugiaListService: CirugiaListService,
     private _specialtyService: SpecialtyListService
   ) {
+    
     this.formCirugia = this._fb.group({
       description: new FormControl(null),
       idspecialty: new FormControl(null),
@@ -54,6 +56,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
         this._cirugiaForEdit = cirugia;
 
         if (this._cirugiaForEdit) {
+          this.idcirugia = cirugia.idCirugia
           this.formCirugia.patchValue({
             description: cirugia.description,
             idspecialty: cirugia.idSpecialty,
@@ -72,6 +75,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
   }
 
   toggleSidebar(name): void {
+    this.idcirugia = 0;
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
     this.formCirugia.reset();
     this._cirugiaListService.cirugiaSelected$.next(null);

@@ -44,7 +44,7 @@ import { CirugiaListService } from "../../../cirugia/cirugia-list/cirugia-list.s
 import { ICirugia } from "../../../cirugia/models/cirugia.model";
 
 import { DiagnosticoListService } from "../../../diagnostico/diagnostico-list/diagnostico-list.service";
-import { IDiagnostico, Idspecialty } from '../../../diagnostico/models/diagnostico.model';
+import { IDiagnostico } from '../../../diagnostico/models/diagnostico.model';
 
 import { AnesthesiaListService } from "../../../anesthesia/anesthesia-list/anesthesia-list.service";
 import { IAnesthesia } from "../../../anesthesia/models/anesthesia.model";
@@ -730,10 +730,11 @@ export class CalendarEventSidebarComponent implements OnInit, AfterViewInit {
   //listado ce diagnosticos
   selectDiagnosticos() {
     let valueIdspecialty = this.formCalendar.get("idspecialty").value;
-    this.diagnosticoSelect$ =
+    this.diagnosticoSelect$ =this._diagnosticoListService.getDiagnosticos()
+    /*
       this._diagnosticoListService.getDiagnosticosByIdSpecialty(
         valueIdspecialty
-      );
+      );*/
   }
 
   //listado ce Especialidad

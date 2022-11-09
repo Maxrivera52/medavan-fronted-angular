@@ -26,6 +26,7 @@ import { DiagnosticoListService } from 'app/main/apps/diagnostico/diagnostico-li
 import { DiagnosticoViewComponent } from 'app/main/apps/diagnostico/diagnostico-view/diagnostico-view.component';
 import { DiagnosticoViewService } from 'app/main/apps/diagnostico/diagnostico-view/diagnostico-view.service';
 import { NewDiagnosticoSidebarComponent } from 'app/main/apps/diagnostico/diagnostico-list/new-diagnostico-sidebar/new-diagnostico-sidebar.component';
+import { ModalServdetspecComponent } from './diagnostico-list/modal-servdetspec/modal-servdetspec.component';
 
 // routing
 const routes: Routes = [
@@ -65,7 +66,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [DiagnosticoListComponent, DiagnosticoViewComponent, DiagnosticoEditComponent, NewDiagnosticoSidebarComponent],
+  declarations: [DiagnosticoListComponent, DiagnosticoViewComponent, DiagnosticoEditComponent, NewDiagnosticoSidebarComponent, ModalServdetspecComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

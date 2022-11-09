@@ -5,11 +5,13 @@ export const diagnosticoAdapter = (
 ): IDiagnostico => ({
   idDiagnostic: diagnosticoResponse.iddiagnostic,
   description: diagnosticoResponse.description,
-  idSpecialty: diagnosticoResponse.idspecialty,
+  //idSpecialty: diagnosticoResponse.idspecialty,
   enable: diagnosticoResponse.enable,
   createdAt: diagnosticoResponse.created_at,
   updatedAt: diagnosticoResponse.updated_at,
+  /*
   specialty:{
     description: diagnosticoResponse.specialty?.description
   }
+  */
 });

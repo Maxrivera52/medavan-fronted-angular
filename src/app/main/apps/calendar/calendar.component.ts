@@ -67,6 +67,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     selectable: true,
     selectMirror: true,
     
+    allDaySlot: false,
     dayMaxEvents: 1,
     eventMaxStack: 1,
     navLinks: true,

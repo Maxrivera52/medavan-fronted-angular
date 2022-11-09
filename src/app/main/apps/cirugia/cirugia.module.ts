@@ -26,6 +26,7 @@ import { CirugiaListService } from 'app/main/apps/cirugia/cirugia-list/cirugia-l
 import { CirugiaViewComponent } from 'app/main/apps/cirugia/cirugia-view/cirugia-view.component';
 import { CirugiaViewService } from 'app/main/apps/cirugia/cirugia-view/cirugia-view.service';
 import { NewCirugiaSidebarComponent } from 'app/main/apps/cirugia/cirugia-list/new-cirugia-sidebar/new-cirugia-sidebar.component';
+import { ModalCirdetanesthComponent } from './cirugia-list/modal-cirdetanesth/modal-cirdetanesth.component';
 
 // routing
 const routes: Routes = [
@@ -65,7 +66,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CirugiaListComponent, CirugiaViewComponent, CirugiaEditComponent, NewCirugiaSidebarComponent],
+  declarations: [CirugiaListComponent, CirugiaViewComponent, CirugiaEditComponent, NewCirugiaSidebarComponent, ModalCirdetanesthComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
