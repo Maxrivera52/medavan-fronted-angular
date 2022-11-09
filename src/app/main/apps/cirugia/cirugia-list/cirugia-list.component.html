@@ -112,12 +112,13 @@
             prop="description"
             [width]="200"
           ></ngx-datatable-column>
+          <!--
           <ngx-datatable-column name="especialidad" [width]="100">
             <ng-template ngx-datatable-cell-template let-row="row">
               {{ row.specialty?.description }}
             </ng-template>
           </ngx-datatable-column>
-
+        -->
           <ngx-datatable-column name="Acciones" [width]="40" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div ngbDropdown container="body">

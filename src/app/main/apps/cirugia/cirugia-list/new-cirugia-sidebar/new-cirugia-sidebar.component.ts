@@ -55,6 +55,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.idcirugia = 0;
     // call selects
     this.specialtySelect$ = this._specialtyService.getSpecialtys();
     this.equipmentSelect$ = this._equipmentService.getEquipos();
@@ -67,7 +68,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
           this.idcirugia = cirugia.idCirugia
           this.formCirugia.patchValue({
             description: cirugia.description,
-            idspecialty: cirugia.idSpecialty,
+           // idspecialty: cirugia.idSpecialty,
           });
         }
       },
@@ -77,14 +78,15 @@ export class NewCirugiaSidebarComponent implements OnInit {
   }
 
   ngOndestroy(): void {
+    this.idcirugia = 0;
     this._subscription.unsubscribe();
     this._cirugiaListService.cirugiaSelected$.unsubscribe();
     this._cirugiaListService.cirugiaSelected$.complete();
   }
 
   toggleSidebar(name): void {
+    console.log("toggling")
     this.idcirugia = 0;
-    this.idequipo = 0;
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
     this.formCirugia.reset();
     this._cirugiaListService.cirugiaSelected$.next(null);
@@ -101,7 +103,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
       subscription = this._cirugiaListService
         .createCirugia({
           description: description,
-          idspecialty: idspecialty,
+          //idspecialty: idspecialty,
         })
         .subscribe({
           next: (response) => {
@@ -119,7 +121,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
         .updateCirugia({
           id: this._cirugiaForEdit.idCirugia,
           description: description,
-          idspecialty: idspecialty,
+         // idspecialty: idspecialty,
         })
         .subscribe({
           next: (response) => {

@@ -5,11 +5,13 @@ export const cirugiaAdapter = (
 ): ICirugia => ({
   idCirugia:cirugiaResponse.idcirugia,
   description: cirugiaResponse.description,
-  idSpecialty: cirugiaResponse.idspecialty,
+  //idSpecialty: cirugiaResponse.idspecialty,
   enable: cirugiaResponse.enable,
   createdAt: cirugiaResponse.created_at,
   updatedAt: cirugiaResponse.updated_at,
+/*
   specialty:{
     description:cirugiaResponse.specialty?.description
   }
+  */
 });

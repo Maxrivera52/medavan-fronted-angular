@@ -1,0 +1,74 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Especialidades relacionadas</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <form class="form">
+                <div class="form-group">
+                    <label class="form-label" for="user-role"><span style="color: red">*</span> Specialty</label>
+
+                    <ng-select *ngIf="specialtySelect$ | async as specialtys" name="specialty"
+                        [(ngModel)]="selectedSpecialty"    
+                    (change)="selectDetailChange(model)"
+                        [items]="specialtys.data" bindLabel="description" bindValue="idSpecialty" [searchable]="true"
+                        required>
+                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                            {{
+                            item.description
+                            }}
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="d-flex align-items-center justify-content-end pb-1 pb-md-0 my-2">
+                    <button class="btn btn-primary float-right w-25" rippleEffect (click)="saveDetail()">
+                        <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i>
+                        <span class="d-none d-sm-inline-block">Agregar</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <section class="users-list-wrapper">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <label class="d-flex align-items-center">Mostrar
+                                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entradas</label>
+                        </div>
+                    </div>
+
+                </div>
+                <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap" [limit]="selectedOption"
+                    [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true">
+                    <ngx-datatable-column name="Anestesia" prop="specialty.description" [width]="200">
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Acciones" [width]="40" [sortable]="false">
+                        <ng-template ngx-datatable-cell-template let-row="row">
+                            <div>
+                                <button type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                    <a (click)="deletCirugiaDetail(row.id)" ngbDropdownItem>
+                                        <span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span>
+                                        Eliminar</a>
+                                </button>
+
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </section>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<button type="button" class="btn btn-light mb-2 me-2" (click)="openXl(content)">Ver Especialidades</button>

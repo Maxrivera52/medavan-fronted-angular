@@ -723,7 +723,7 @@ export class CalendarEventSidebarComponent implements OnInit, AfterViewInit {
   selectCirugia() {
     let valueIdspecialty = this.formCalendar.get("idspecialty").value;
     this.cirugiaSelect$ =
-      this._cirugiaListService.getCirugiasByIdSpecialty(valueIdspecialty);
+      this._cirugiaListService.getCirugias()//getCirugiasByIdSpecialty(valueIdspecialty);
     this.selectDiagnosticos();
   }
 
