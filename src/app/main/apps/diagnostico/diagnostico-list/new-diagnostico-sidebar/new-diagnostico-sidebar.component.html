@@ -38,7 +38,14 @@
               aria-describedby="basic-icon-default-uname2"
             />
           </div>
+          
           <div class="form-group">
+            <ng-container *ngIf="iddiagnostic > 0">
+              <app-modal-servdetspec [iddiagnostico]="iddiagnostic"></app-modal-servdetspec>
+            </ng-container>
+            
+            
+            <!--
             <label class="form-label" for="user-role"><span style="color: red">*</span> Especialidad</label>
             
             <ng-select
@@ -60,7 +67,7 @@
               }}
             </ng-template>
             </ng-select>
-            
+          -->
             <!-- <select
               *ngIf="specialtySelect$ | async as specialtys"
               formControlName="idspecialty"
@@ -87,8 +94,12 @@
             Cancelar
           </button>
         </div>
+        
       </form>
     </div>
   </div>
   <!-- Modal to add new user Ends-->
+
+
+
 </div>
