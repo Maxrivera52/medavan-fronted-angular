@@ -29,6 +29,7 @@ export class NewCirugiaSidebarComponent implements OnInit {
   specialtySelect$: Observable<IResponseGetList<ISpecialty>>;
 
   idcirugia:number = 0;
+  idequipo:number = 0;
   constructor(
     private _coreSidebarService: CoreSidebarService,
     private _fb: FormBuilder,
